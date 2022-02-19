@@ -1,2 +1,16 @@
-### pinata api test
+### Pinata json to ipfs
+POST http://127.0.0.1:8113/pinata
+Content-Type: application/json
+
+{
+  "name": "pinata",
+  "description": "test",
+  "image": "https://etherbay.io/product/a43x3JFk31",
+  "attributes": {
+    "trait_type": "category",
+    "value": "it"
+  }
+}
+
+### Pinata api test
 GET http://127.0.0.1:8113/pinata/test
