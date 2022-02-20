@@ -8,10 +8,15 @@ async function bootstrap() {
   app.use(
     session({
       secret: 'etherbay-secret',
-      resave: false,
+      cookie: { maxAge: 60000 },
+      rolling: true,
+      resave: true,
       saveUninitialized: false,
+      store: new session.MemoryStore(),
     }),
   );
+
+  app.enableCors({ origin: 'http://127.0.0.1:3000' });
 
   await app.listen(process.env.PORT || 3000);
 }

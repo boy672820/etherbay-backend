@@ -19,7 +19,9 @@ export class LocalStrategy extends PassportStrategy(Strategy, 'local') {
     accountAddress: string,
     signature: string,
   ): Promise<any> {
+    console.log(request?.session);
     const message = request?.session[accountAddress];
+
     if (!message) {
       throw new UnauthorizedException('서명 요청이 없습니다.');
     }
