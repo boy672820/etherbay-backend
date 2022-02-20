@@ -1,3 +1,21 @@
+### Auth: 사용자 넌스코드 세션저장 및 메세지 반환
+POST http://127.0.0.1:8113/auth/nonce
+Content-Type: application/json
+
+{
+  "accountAddress": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8"
+}
+
+### Auth: 메타마스크 서명 로그인
+POST http://127.0.0.1:8113/auth
+Content-Type: application/json
+
+{
+  "username": "a",
+  "password": "b"
+}
+
+
 ### Pinata json to ipfs
 POST http://127.0.0.1:8113/pinata
 Content-Type: application/json
