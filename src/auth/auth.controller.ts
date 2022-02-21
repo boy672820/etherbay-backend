@@ -3,11 +3,12 @@ import {
   Body,
   Controller,
   Post,
-  Session,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 import { ethers } from 'ethers';
 import { AuthService } from './auth.service';
+import { NONCE_MESSAGE } from './constants';
 import { AccountAddressDto } from './dto/account-address.dto';
 import { LocalGuard } from './guard/local.guard';
 
@@ -17,26 +18,22 @@ export class AuthController {
 
   @UseGuards(LocalGuard)
   @Post()
-  async signIn() {
-    console.log('test');
+  async signIn(@Req() request) {
+    const accountAddress = request.user;
+    const jwt = await this.authService.createJwt(accountAddress);
+
+    return jwt;
   }
 
   // nonce 세션 저장 안됨
   // 한 요청에 대해서만 세션 저장
   @Post('nonce')
-  async nonce(
-    @Session() session,
-    @Body() { accountAddress }: AccountAddressDto,
-  ) {
+  async nonce(@Body() { accountAddress }: AccountAddressDto) {
     if (!accountAddress || !ethers.utils.isAddress(accountAddress)) {
       throw new BadRequestException('잘못된 계정주소 입니다.');
     }
 
-    session[accountAddress] = await this.authService.generateNonce();
-
-    console.log(session);
-
-    const message = `etherBay에 오신것을 환영합니다. 서비스를 이용하기 위해 사용자 서명이 필요합니다. 넌스코드: ${session[accountAddress]}`;
+    const message = NONCE_MESSAGE;
 
     return message;
   }

@@ -12,7 +12,7 @@ Content-Type: application/json
 
 {
   "username": "a",
-  "password": "b"
+  "password": "a"
 }
 
 

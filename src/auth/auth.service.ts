@@ -1,27 +1,26 @@
 import { Injectable } from '@nestjs/common';
 import { recoverPersonalSignature } from '@metamask/eth-sig-util';
 import { bufferToHex } from 'ethereumjs-util';
-import { nanoid } from 'nanoid';
 import { LocalSign } from './type/sign.type';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
-  async generateNonce() {
-    const id = nanoid(6);
-
-    return id;
-  }
+  constructor(private readonly jwtService: JwtService) {}
 
   async validateSign(
     { accountAddress, signature }: LocalSign,
     message: string,
   ) {
-    const hex = bufferToHex(Buffer.from(message, 'utf8'));
-    const signedAddress = recoverPersonalSignature({
-      data: hex,
-      signature: signature,
-    });
+    const data = bufferToHex(Buffer.from(message, 'utf8'));
+    const signedAddress = recoverPersonalSignature({ data, signature });
 
-    return signedAddress === accountAddress;
+    return signedAddress.toUpperCase() === accountAddress.toUpperCase();
+  }
+
+  async createJwt(sub: string) {
+    const jwt = this.jwtService.sign({ sub });
+
+    return jwt;
   }
 }
