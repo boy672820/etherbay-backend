@@ -17,7 +17,7 @@ Content-Type: application/json
 
 
 ### Pinata json to ipfs
-POST http://127.0.0.1:8113/pinata
+POST http://127.0.0.1:8113/pinata/json
 Content-Type: application/json
 
 {

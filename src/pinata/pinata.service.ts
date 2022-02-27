@@ -2,6 +2,7 @@ import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { firstValueFrom } from 'rxjs';
 import { CreateJsonToIpfsDto } from './dto/create.json-to-ipfs.dto';
+import * as FormData from 'form-data';
 
 @Injectable()
 export class PinataService {
@@ -23,6 +24,19 @@ export class PinataService {
     );
 
     return response;
+  }
+
+  async fileToIpfs(formData: FormData): Promise<any> {
+    const hash = await firstValueFrom(
+      this.httpService.post('/pinning/pinFileToIPFS', formData, {
+        maxContentLength: Infinity,
+        headers: {
+          'Content-Type': `multipart/form-data; boundary=${formData.getBoundary()}`,
+        },
+      }),
+    );
+
+    return hash;
   }
 
   async test(): Promise<any> {
