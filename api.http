@@ -15,7 +15,6 @@ Content-Type: application/json
   "password": "a"
 }
 
-
 ### Pinata json to ipfs
 POST http://127.0.0.1:8113/pinata/json
 Content-Type: application/json

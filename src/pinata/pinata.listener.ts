@@ -1,20 +1,16 @@
-import {
-  Body,
-  Controller,
-  ForbiddenException,
-  Get,
-  Post,
-} from '@nestjs/common';
-import { CreateJsonToIpfsDto } from './dto/create.json-to-ipfs.dto';
+import { ForbiddenException, Injectable } from '@nestjs/common';
+import { OnEvent } from '@nestjs/event-emitter';
 import { PinataService } from './pinata.service';
+import { PINATA_EVENT } from '../common/events/pinata.event';
+import { CreateJsonToIpfsDto } from './dto/create.json-to-ipfs.dto';
 import * as FormData from 'form-data';
 
-@Controller('pinata')
-export class PinataController {
+@Injectable()
+export class PinataListener {
   constructor(private readonly pinataService: PinataService) {}
 
-  @Post('json')
-  async jsonToIpfs(@Body() data: CreateJsonToIpfsDto, accountAddress: string) {
+  @OnEvent(PINATA_EVENT.JSON_TO_IPFS)
+  async jsonToIpfs(accountAddress: string, data: CreateJsonToIpfsDto) {
     try {
       const response = await this.pinataService.jsonToIpfs(
         accountAddress,
@@ -27,25 +23,14 @@ export class PinataController {
     }
   }
 
-  @Post('file')
-  async fileToIpfs(@Body() formData: FormData) {
+  @OnEvent(PINATA_EVENT.FILE_TO_IPFS)
+  async fileToIpfs(formData: FormData) {
     try {
       const response = await this.pinataService.fileToIpfs(formData);
 
       return response.data;
     } catch (e) {
       throw new ForbiddenException('IPFS 업로드 중 문제가 발생했습니다.');
-    }
-  }
-
-  @Get('test')
-  async test(): Promise<string> {
-    try {
-      const response = await this.pinataService.test();
-
-      return response.data;
-    } catch (e) {
-      throw new ForbiddenException('Pinata authentication test failed');
     }
   }
 }

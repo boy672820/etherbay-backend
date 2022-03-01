@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { PinataService } from './pinata.service';
-import { PinataController } from './pinata.controller';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import pinataConfig from 'src/config/pinata.config';
 import { HttpModule } from '@nestjs/axios';
@@ -13,13 +12,14 @@ import { HttpModule } from '@nestjs/axios';
         const baseURL = configService.get<string>('pinata.apiUrl');
         const key = configService.get<string>('pinata.key');
         const secret = configService.get<string>('pinata.secret');
-        // const jwt = configService.get<string>('pinata.jwt');
+        const jwt = configService.get<string>('pinata.jwt');
 
         return {
           baseURL,
           headers: {
             pinata_api_key: key,
             pinata_secret_api_key: secret,
+            Authorization: `Bearer ${jwt}`,
           },
         };
       },
@@ -27,6 +27,5 @@ import { HttpModule } from '@nestjs/axios';
     }),
   ],
   providers: [PinataService],
-  controllers: [PinataController],
 })
 export class PinataModule {}

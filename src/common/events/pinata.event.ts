@@ -1,0 +1,4 @@
+export const PINATA_EVENT = {
+  JSON_TO_IPFS: Symbol('PINATA.JSON_TO_IPFS'),
+  FILE_TO_IPFS: Symbol('PINATA.FILE_TO_IPFS'),
+};
