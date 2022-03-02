@@ -32,6 +32,7 @@
     "@nestjs/platform-express": "^8.0.0",
     "ethereumjs-util": "^7.1.4",
     "ethers": "^5.5.4",
+    "form-data": "^4.0.0",
     "passport": "^0.5.2",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",

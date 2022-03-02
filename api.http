@@ -20,9 +20,9 @@ POST http://127.0.0.1:8113/pinata/json
 Content-Type: application/json
 
 {
-  "name": "pinata",
-  "description": "test",
-  "image": "https://etherbay.io/product/a43x3JFk31",
+  "name": "M1X Macbook",
+  "description": "Macbook Pro",
+  "image": "https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/mbp14-spacegray-select-202110_GEO_KR?wid=904&hei=840&fmt=jpeg&qlt=80&.v=1633657358000",
   "attributes": {
     "trait_type": "category",
     "value": "it"
