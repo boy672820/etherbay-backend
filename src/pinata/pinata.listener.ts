@@ -25,7 +25,6 @@ export class PinataListener {
 
   @OnEvent(PINATA_EVENT.FILE_TO_IPFS)
   async fileToIpfs(formData: FormData) {
-    console.log('Call fileToIpfs');
     try {
       const response = await this.pinataService.fileToIpfs(formData);
 

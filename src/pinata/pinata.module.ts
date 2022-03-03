@@ -3,6 +3,7 @@ import { PinataService } from './pinata.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import pinataConfig from 'src/config/pinata.config';
 import { HttpModule } from '@nestjs/axios';
+import { PinataListener } from './pinata.listener';
 
 @Module({
   imports: [
@@ -19,13 +20,13 @@ import { HttpModule } from '@nestjs/axios';
           headers: {
             pinata_api_key: key,
             pinata_secret_api_key: secret,
-            Authorization: `Bearer ${jwt}`,
+            // Authorization: `Bearer ${jwt}`,
           },
         };
       },
       inject: [ConfigService],
     }),
   ],
-  providers: [PinataService],
+  providers: [PinataService, PinataListener],
 })
 export class PinataModule {}
