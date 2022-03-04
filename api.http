@@ -11,8 +11,8 @@ POST http://127.0.0.1:8113/auth
 Content-Type: application/json
 
 {
-  "username": "a",
-  "password": "a"
+  "accountAddress": "a",
+  "signature": "a"
 }
 
 ### Pinata json to ipfs

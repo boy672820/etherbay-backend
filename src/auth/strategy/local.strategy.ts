@@ -23,6 +23,7 @@ export class LocalStrategy extends PassportStrategy(Strategy, 'local') {
     if (!signed) {
       throw new UnauthorizedException('인증되지 않은 서명입니다.');
     }
+
     return accountAddress;
   }
 }

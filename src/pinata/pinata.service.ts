@@ -27,7 +27,7 @@ export class PinataService {
   }
 
   async fileToIpfs(formData: FormData): Promise<any> {
-    const hash = await firstValueFrom(
+    const data = await firstValueFrom(
       this.httpService.post('/pinning/pinFileToIPFS', formData, {
         maxContentLength: Infinity,
         headers: {
@@ -36,7 +36,7 @@ export class PinataService {
       }),
     );
 
-    return hash;
+    return data;
   }
 
   async test(): Promise<any> {
