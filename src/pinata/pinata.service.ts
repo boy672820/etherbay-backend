@@ -12,13 +12,23 @@ export class PinataService {
     accountAddress: string,
     pinataContent: CreateJsonToIpfsDto,
   ): Promise<any> {
+    const keyvalues = {
+      name: pinataContent.name,
+      accountAddress,
+    };
+
+    pinataContent.attributes.forEach((attribute) => {
+      Object.assign(keyvalues, { [attribute.trait_type]: attribute.value });
+    });
+
     const data = {
       pinataMetadata: {
-        name: 'product',
-        keyvalues: { name: pinataContent.name, accountAddress },
+        name: 'etherbay-product',
+        keyvalues,
       },
       pinataContent,
     };
+
     const response = await firstValueFrom(
       this.httpService.post('/pinning/pinJSONToIPFS', data),
     );

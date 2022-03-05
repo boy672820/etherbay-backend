@@ -6,6 +6,7 @@ import { PinataModule } from './pinata/pinata.module';
 import { AuthModule } from './auth/auth.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ProductModule } from './product/product.module';
+import { EthereumModule } from './ethereum/ethereum.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { ProductModule } from './product/product.module';
     PinataModule,
     AuthModule,
     ProductModule,
+    EthereumModule,
   ],
   controllers: [AppController],
   providers: [AppService],

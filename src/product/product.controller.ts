@@ -10,18 +10,19 @@ import { EventEmitter2 } from '@nestjs/event-emitter';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { PINATA_EVENT } from '../common/events/pinata.event';
 import { CreateProductDto } from './dto/create.product.dto';
-import * as FormData from 'form-data';
-import { Readable } from 'stream';
 import { ConfigService } from '@nestjs/config';
 import { JwtGuard } from '../auth/guard/jwt.guard';
-import { request } from 'http';
 import { User } from '../common/decorators/user.decorator';
+import { ProductService } from './product.service';
+import FormData from 'form-data';
+import { Readable } from 'stream';
 
 @Controller('product')
 export class ProductController {
   constructor(
     private readonly eventEmitter: EventEmitter2,
     private readonly configService: ConfigService,
+    private readonly productService: ProductService,
   ) {}
 
   @UseInterceptors(FileInterceptor('image'))
@@ -53,10 +54,12 @@ export class ProductController {
       name: product.name,
       description: product.description,
       image: ipfsImage,
-      attributes: {
-        trait_type: 'category',
-        value: product.category,
-      },
+      attributes: [
+        {
+          trait_type: 'category',
+          value: product.category,
+        },
+      ],
     };
     const jsonHash = await this.eventEmitter.emitAsync(
       PINATA_EVENT.JSON_TO_IPFS,
@@ -64,6 +67,13 @@ export class ProductController {
       data,
     );
 
-    return jsonHash;
+    const ipfsJson = `${apiUrl}/${jsonHash[0]}`;
+    const minted = await this.productService.mint(accountAddress, ipfsJson);
+
+    return {
+      ...data,
+      ...minted,
+      ipfs: jsonHash[0],
+    };
   }
 }

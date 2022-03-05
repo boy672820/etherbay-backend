@@ -17,7 +17,7 @@ export class PinataListener {
         data,
       );
 
-      return response.data;
+      return response.data.IpfsHash;
     } catch (e) {
       throw new ForbiddenException('IPFS 업로드 중 문제가 발생했습니다.');
     }

@@ -6,28 +6,5 @@ Content-Type: application/json
   "accountAddress": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8"
 }
 
-### Auth: 메타마스크 서명 로그인
-POST http://127.0.0.1:8113/auth
-Content-Type: application/json
-
-{
-  "accountAddress": "a",
-  "signature": "a"
-}
-
-### Pinata json to ipfs
-POST http://127.0.0.1:8113/pinata/json
-Content-Type: application/json
-
-{
-  "name": "M1X Macbook",
-  "description": "Macbook Pro",
-  "image": "https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/mbp14-spacegray-select-202110_GEO_KR?wid=904&hei=840&fmt=jpeg&qlt=80&.v=1633657358000",
-  "attributes": {
-    "trait_type": "category",
-    "value": "it"
-  }
-}
-
 ### Pinata api test
 GET http://127.0.0.1:8113/pinata/test
