@@ -3,10 +3,14 @@ import { Injectable } from '@nestjs/common';
 import { firstValueFrom } from 'rxjs';
 import { CreateJsonToIpfsDto } from './dto/create.json-to-ipfs.dto';
 import * as FormData from 'form-data';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class PinataService {
-  constructor(private readonly httpService: HttpService) {}
+  constructor(
+    private readonly configService: ConfigService,
+    private readonly httpService: HttpService
+  ) {}
 
   async jsonToIpfs(
     accountAddress: string,
@@ -47,6 +51,21 @@ export class PinataService {
     );
 
     return data;
+  }
+
+  async getIpfs(ipfsHash: string): Promise<any> {
+    try {
+      const baseURL = this.configService.get<string>('ipfs.gatewayUrl');
+      console.log(`${baseURL}/ipfs/${ipfsHash}`);
+      const response: { data: any } = await firstValueFrom(
+        this.httpService.get(`/ipfs/${ipfsHash}`, { baseURL }),
+      );
+
+      return response.data;
+    } catch (e) {
+      console.log(e);
+      throw e;
+    }
   }
 
   async test(): Promise<any> {

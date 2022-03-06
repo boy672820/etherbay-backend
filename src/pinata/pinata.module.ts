@@ -4,9 +4,13 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import pinataConfig from 'src/config/pinata.config';
 import { HttpModule } from '@nestjs/axios';
 import { PinataListener } from './pinata.listener';
+import { PinataController } from './pinata.controller';
+import ipfsConfig from '../config/ipfs.config';
 
 @Module({
   imports: [
+    ConfigModule.forFeature(pinataConfig),
+    ConfigModule.forFeature(ipfsConfig),
     HttpModule.registerAsync({
       imports: [ConfigModule.forFeature(pinataConfig)],
       useFactory: async (configService: ConfigService) => {
@@ -20,7 +24,7 @@ import { PinataListener } from './pinata.listener';
           headers: {
             pinata_api_key: key,
             pinata_secret_api_key: secret,
-            // Authorization: `Bearer ${jwt}`,
+            Authorization: `Bearer ${jwt}`,
           },
         };
       },
@@ -28,5 +32,6 @@ import { PinataListener } from './pinata.listener';
     }),
   ],
   providers: [PinataService, PinataListener],
+  controllers: [PinataController],
 })
 export class PinataModule {}

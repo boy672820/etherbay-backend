@@ -47,8 +47,8 @@ export class ProductController {
       formData,
     );
 
-    const apiUrl = this.configService.get<string>('pinata.ipfsUrl');
-    const ipfsImage = `${apiUrl}/${fileHash}`;
+    const gatewayUrl = this.configService.get<string>('ipfs.gatewayUrl');
+    const ipfsImage = `${gatewayUrl}/ipfs/${fileHash}`;
 
     const data = {
       name: product.name,
@@ -67,7 +67,7 @@ export class ProductController {
       data,
     );
 
-    const ipfsJson = `${apiUrl}/${jsonHash[0]}`;
+    const ipfsJson = `${gatewayUrl}/ipfs/${jsonHash[0]}`;
     const minted = await this.productService.mint(accountAddress, ipfsJson);
 
     return {
