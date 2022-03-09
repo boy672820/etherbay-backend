@@ -63,7 +63,6 @@ export class PinataService {
 
       return response.data;
     } catch (e) {
-      console.log(e);
       throw e;
     }
   }
