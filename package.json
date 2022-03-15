@@ -9,6 +9,7 @@
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "start:dev": "concurrently --handle-input \"wait-on dist/src/main.js && nodemon\" \"tsc -w -p tsconfig.build.json\" ",
     "start": "NODE_ENV=production PORT=8112 nest start",
     "dev": "NODE_ENV=development PORT=8113 nest start --watch",
     "debug": "NODE_ENV=development PORT=8113 nodemon --config nodemon-debug.json",
